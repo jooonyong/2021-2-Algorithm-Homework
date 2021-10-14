@@ -30,24 +30,29 @@ for i in range(m-1,-1,-1):
         temparr.append(table[i][j+1]+2)
         table[i][j] = np.min(temparr)
 
-for i in range(0,m):
-    for j in range(i,n):   
-        if a[i]==b[j]:
-            penalty = 0
-        else:
-            penalty =1
+i =0
+j = 0
+temptuple = (0,0)
+while(i<m and j<n):
+    if a[i] ==b[j]:
+        penalty =0
+    else:
+        penalty = 1
 
-        if table[i][j] == table[i+1][j+1]+penalty:
-            minindex[i+1][j+1] = minindex[i][j] + (1,1)
-            break
-        elif table[i][j] == table[i+1][j] +2:
-            minindex[i+1][j] = minindex[i][j] +(1,0)
-            j = j-1
-            break
-        else:
-            minindex[i][j+1] = minindex[i][j] +(0,1)
-            break
-
+    if table[i][j] == table[i+1][j+1] + penalty:
+        minindex[i][j] = tuple(sum(elem) for elem in zip(temptuple,(1,1)))
+        temptuple =minindex[i][j]
+        i = i+1
+        j = j+1
+    elif table[i][j] == table[i+1][j] +2:
+        minindex[i][j] = tuple(sum(elem) for elem in zip(temptuple,(1,0)))
+        temptuple = minindex[i][j]
+        i = i+1
+    else:
+        minindex[i][j] = tuple(sum(elem) for elem in zip(temptuple,(0,1)))
+        temptuple = minindex[i][j]
+        j = j+1
+     
 
 utility.printMatrix(table)
 
